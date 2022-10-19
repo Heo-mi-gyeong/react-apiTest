@@ -1,0 +1,29 @@
+.input {
+    width:100%;
+    height:35px;
+    padding-left: 15px;
+}
+
+.container{
+    padding: 5px;
+    width:50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sContainer{
+    padding: 5px;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sContainer > form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

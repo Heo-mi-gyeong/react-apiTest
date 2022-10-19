@@ -1,0 +1,17 @@
+.button {
+    width : 100px;
+    height : 35px;
+    border : 0px;
+    border-radius: 10px;
+    margin: 0px 15px;
+}
+
+.button:hover {
+    transition: ease 0.5s;
+    filter: brightness(80%);
+    transform: scale(1.1);
+}
+
+.button:active {
+    filter: brightness(20%);
+}
