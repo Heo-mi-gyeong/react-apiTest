@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './button.module.css'
 
-const Button = ({text, bkcolor, ftcolor,onClick}) => {
+const Button = ({text, bkcolor, ftcolor, onClick}) => {
   return (
     <button 
     onClick = {onClick}
@@ -10,7 +10,7 @@ const Button = ({text, bkcolor, ftcolor,onClick}) => {
         backgroundColor : bkcolor,
         color : ftcolor
     }}
-    >{text}</button>
+    ><b>{text}</b></button>
   )
 }
 

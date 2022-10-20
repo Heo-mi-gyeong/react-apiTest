@@ -1,0 +1,25 @@
+.item {
+    width : 50%;
+    max-width: 320px;
+    min-width: 320px;
+    height : 470px;
+    background-color : #FBE7DA;
+    border-radius : 20px;
+    padding : 10px;
+    margin: 10px;
+    text-align: center;
+}
+
+.item:hover {
+    transform : scale(1.03);
+    transition : ease 0.3s;
+}
+
+.image {
+    width : 50%;
+}
+
+.image:hover {
+    transform: scale(1.03);
+    transition: ease 0.1s;
+}
