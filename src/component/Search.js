@@ -5,11 +5,6 @@ import MovieList from './MovieList'
 import axios from 'axios';
 
 const Search = () => {
-  //api 
-  // 요청 url : https://openapi.naver.com/v1/search/movie.json
-  // Client id : LXTIWfkqGGa7zfKNIkk1(X-Naver-Client-Id)
-  // Client Secret : EDRJAsd_jO(X-Naver-Client-Secret)
-  // Content-Type: application/json
 
   const [data,setData] = useState([]);
   const searchInput = useRef(); 
@@ -18,6 +13,7 @@ const Search = () => {
 
   const onSearch = (e,targetInput) => {
     e.preventDefault();
+    setGenre('');
 
     if(!targetInput){
       alert('검색어를 한글자 이상 입력해주세요.');
@@ -32,7 +28,7 @@ const Search = () => {
       params: {
         display : '10',
         query : targetInput,
-        display: 10
+        display: page.current
       },
       headers : {
         'X-Naver-Client-Id' : 'LXTIWfkqGGa7zfKNIkk1',
@@ -50,6 +46,7 @@ const Search = () => {
     });
   }
 
+  //조회한 영화목록 확인용
   useEffect(() => {
     console.log(data);
   },[data]);
@@ -77,10 +74,39 @@ const Search = () => {
     }).catch((error) => {
 
       console.log(error);
+      //error 모달창으로 띄우기
+    });
+  }
+
+  const onGenre = (code) => {
+    setGenre(code);
+    page.current = 10;
+
+    axios({
+      method: 'get',
+      url: 'https://openapi.naver.com/v1/search/movie.json',
+      params: {
+        display : '10',
+        query : searchInput.current.value,
+        display: page.current,
+        genre : code
+      },
+      headers : {
+        'X-Naver-Client-Id' : 'LXTIWfkqGGa7zfKNIkk1',
+        'X-Naver-Client-Secret' : 'EDRJAsd_jO',
+        'Content-Type' : 'plain/text',
+      }
+    }).then((response) => {
+      setData(response.data.items);
+
+    }).catch((error) => {
+
+      console.log(error);
       //error 모달장으로 띄우기
     });
   }
 
+  // 제목, 감독, 이미지, 출연자, 평점
   return (
     <div className={styles.container}>
         <form className={styles.sContainer}>
@@ -88,20 +114,21 @@ const Search = () => {
             <Button text={'검색'} bkcolor={'#FF5733'} ftcolor={'ivory'} onClick={(e) => {onSearch(e,searchInput.current.value)}}/>
         </form>
         <div className={styles.sContainer}>
-          <button className={genre==='1'?styles.clickButton:''} text={'드라마'} onClick={setGenre('1')}/>
-          <button className={genre==='2'?styles.clickButton:''} text={'판타지'} onClick={setGenre('2')}/>
-          <button className={genre==='4'?styles.clickButton:''} text={'공포'} onClick={setGenre('4')}/>
-          <button className={genre==='5'?styles.clickButton:''} text={'로맨스'} onClick={setGenre('5')}/>
-          <button className={genre==='7'?styles.clickButton:''} text={'스릴러'} onClick={setGenre('7')}/>
-          <button className={genre==='8'?styles.clickButton:''} text={'느와르'} onClick={setGenre('8')}/>
-          <button className={genre==='10'?styles.clickButton:''} text={'다큐멘터리'} onClick={setGenre('10')}/>
-          <button className={genre==='11'?styles.clickButton:''} text={'코미디'} onClick={setGenre('11')}/>
-          <button className={genre==='12'?styles.clickButton:''} text={'가족'} onClick={setGenre('12')}/>
-          <button className={genre==='13'?styles.clickButton:''} text={'미스터리'} onClick={setGenre('13')}/>
-          <button className={genre==='14'?styles.clickButton:''} text={'전쟁'} onClick={setGenre('14')}/>
-          <button className={genre==='15'?styles.clickButton:''} text={'애니메이션'} onClick={setGenre('15')}/>
-          <button className={genre==='16'?styles.clickButton:''} text={'범죄'} onClick={setGenre('16')}/>
-          <button className={genre==='18'?styles.clickButton:''} text={'SF'} onClick={setGenre('18')}/>
+          <button className={genre===''?styles.clickButton:styles.button} onClick={()=>{onGenre('')}}>전체보기</button>
+          <button className={genre==='1'?styles.clickButton:styles.button} onClick={()=>{onGenre('1')}}>드라마</button>
+          <button className={genre==='2'?styles.clickButton:styles.button} onClick={()=>{onGenre('2')}}>판타지</button>
+          <button className={genre==='4'?styles.clickButton:styles.button} onClick={()=>{onGenre('4')}}>공포</button>
+          <button className={genre==='5'?styles.clickButton:styles.button} onClick={()=>{onGenre('5')}}>로맨스</button>
+          <button className={genre==='7'?styles.clickButton:styles.button} onClick={()=>{onGenre('7')}}>스릴러</button>
+          <button className={genre==='8'?styles.clickButton:styles.button} onClick={()=>{onGenre('8')}}>느와르</button>
+          <button className={genre==='10'?styles.clickButton:styles.button} onClick={()=>{onGenre('10')}}>다큐멘터리</button>
+          <button className={genre==='11'?styles.clickButton:styles.button} onClick={()=>{onGenre('11')}}>코미디</button>
+          <button className={genre==='12'?styles.clickButton:styles.button} onClick={()=>{onGenre('12')}}>가족</button>
+          <button className={genre==='13'?styles.clickButton:styles.button} onClick={()=>{onGenre('13')}}>미스터리</button>
+          <button className={genre==='14'?styles.clickButton:styles.button} onClick={()=>{onGenre('14')}}>전쟁</button>
+          <button className={genre==='15'?styles.clickButton:styles.button} onClick={()=>{onGenre('15')}}>애니메이션</button>
+          <button className={genre==='16'?styles.clickButton:styles.button} onClick={()=>{onGenre('16')}}>범죄</button>
+          <button className={genre==='18'?styles.clickButton:styles.button} onClick={()=>{onGenre('18')}}>SF</button>
         </div>
         <div className={styles.movieContainer}>
          {

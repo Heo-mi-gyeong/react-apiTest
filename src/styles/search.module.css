@@ -35,11 +35,29 @@
 
 .clickButton {
     width : 100px;
-    background-color: white;
-    color: red;
-    height : 35px;
+    background-color: #6adb00;
+    color: ivory;
+    height : 40px;
     transform: scale(1.1);
     border : 0px;
     border-radius: 10px;
-    margin: 5px 15px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.button {
+    width : 100px;
+    height : 40px;
+    border : 0px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.button:hover {
+    transition: ease 0.5s;
+    filter: brightness(80%);
+}
+
+.button:active {
+    filter: brightness(20%);
 }

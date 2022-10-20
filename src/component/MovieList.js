@@ -1,15 +1,31 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import styles from '../styles/movieList.module.css'
 
 const MovieList = ({movie}) => {
+  const [like, setLike] = useState(false);
+  let id= useRef(0);
   const goSite = () => {
     window.location.href = movie.link ;
   }
+
+  const onLike = () => {
+    localStorage.setItem(id.current++,JSON.stringify(movie));
+    localStorage.setItem('id',id.current);
+    setLike(!like);
+  }
+
+  const onRemove = () => {
+    localStorage.removeItem(id.current++,JSON.stringify(movie));
+    setLike(!like);
+  }
+
   return (
     <div className={styles.item}>
+      <div className={styles.row}>
         <h3 dangerouslySetInnerHTML={ {__html: movie.title} }></h3>
+        <img src={like?'https://cdn-icons-png.flaticon.com/512/833/833558.png':'https://cdn-icons-png.flaticon.com/512/5294/5294889.png'} style={{width:'30px'}} onClick={like?onRemove:onLike}/>
+      </div>
         <p>◾ 감독 : {movie.director}</p>
-        {/* 페이징 처리 + 장르별 검색 */} 
         {
           movie.image
           ?(
