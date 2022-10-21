@@ -24,11 +24,13 @@ const Search = () => {
 
     axios({
       method: 'get',
-      url: 'https://openapi.naver.com/v1/search/movie.json',
+      //url: 'https://openapi.naver.com/v1/search/movie.json',
+      url: '/v1/search/movie.json',
       params: {
         display : '10',
         query : targetInput,
-        display: page.current
+        display: page.current,
+        genre : genre
       },
       headers : {
         'X-Naver-Client-Id' : 'LXTIWfkqGGa7zfKNIkk1',
@@ -46,17 +48,18 @@ const Search = () => {
     });
   }
 
-  //조회한 영화목록 확인용
+  /* //조회한 영화목록 확인용
   useEffect(() => {
     console.log(data);
-  },[data]);
+  },[data]); */
 
   const addPage = () => {
     page.current = page.current+10;
 
     axios({
       method: 'get',
-      url: 'https://openapi.naver.com/v1/search/movie.json',
+      //url: 'https://openapi.naver.com/v1/search/movie.json',
+      url: '/v1/search/movie.json',
       params: {
         display : '10',
         query : searchInput.current.value,
@@ -84,7 +87,8 @@ const Search = () => {
 
     axios({
       method: 'get',
-      url: 'https://openapi.naver.com/v1/search/movie.json',
+      //url: 'https://openapi.naver.com/v1/search/movie.json',
+      url: '/v1/search/movie.json',
       params: {
         display : '10',
         query : searchInput.current.value,
@@ -104,6 +108,23 @@ const Search = () => {
       console.log(error);
       //error 모달장으로 띄우기
     });
+  }
+
+  const addLike = (targetMovie) => {
+    //localStorage.setItem(id.current,JSON.stringify(targetMovie));
+    let likeList = JSON.parse(localStorage.getItem('likeList')) || [];
+    likeList = likeList.concat(targetMovie); // [targetMovie]
+    localStorage.setItem('likeList', JSON.stringify(likeList));
+  }
+
+  const removeLike = (targetMovie) => {
+    const likeList = JSON.parse(localStorage.getItem('likeList'));
+    console.log(likeList);
+
+    localStorage.removeItem('likeList');
+    localStorage.setItem('likeList',JSON.stringify(likeList.filter(like => 
+      like.title !== targetMovie.title
+    ))) 
   }
 
   // 제목, 감독, 이미지, 출연자, 평점
@@ -134,9 +155,10 @@ const Search = () => {
          {
             data&&data.length>0
             ?data.map((data, index) => {
-                return (
-                    <MovieList key={index} movie={data}/>
-                )
+              let likeList = JSON.parse(localStorage.getItem('likeList')) || [];
+              return (
+                <MovieList key={index} movie={data} addLike={(e) => addLike(e)} removeLike={removeLike} likeList={likeList}/>
+              )
             })
             :(
                 <h3 style={{color : '#cccccc'}}>조회 결과가 없습니다.</h3>
