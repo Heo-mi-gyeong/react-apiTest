@@ -3,20 +3,22 @@ import styles from '../styles/movieList.module.css'
 
 const MovieList = ({movie,addLike,removeLike,likeList}) => {
 
-  const [like, setLike] = useState();
+  const [like, setLike] = useState(false);
 
+  //조회결과가 달라도 그 위치의 영화가 찜되어있는 이유
+  //리렌더링 안돼서
   useEffect(
     ()=>{
       likeList.map((list,index) => {
-        list.title===movie.title?setLike(true):setLike(false);
-        console.log("좋아요 목록"+list.title);
-        console.log("현재 영화 요소"+movie.title)
+        if(list.title===movie.title){
+            setLike(true)
+        }
       })
   }
   ,[])
   
   useEffect (()=>{
-    console.log(like)
+    console.log(like);
   },
   [like])
 

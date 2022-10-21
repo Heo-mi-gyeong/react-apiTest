@@ -13,7 +13,7 @@ const Search = () => {
 
   const onSearch = (e,targetInput) => {
     e.preventDefault();
-    setGenre('');
+    //setGenre('');
 
     if(!targetInput){
       alert('검색어를 한글자 이상 입력해주세요.');
@@ -119,7 +119,6 @@ const Search = () => {
 
   const removeLike = (targetMovie) => {
     const likeList = JSON.parse(localStorage.getItem('likeList'));
-    console.log(likeList);
 
     localStorage.removeItem('likeList');
     localStorage.setItem('likeList',JSON.stringify(likeList.filter(like => 
@@ -157,7 +156,7 @@ const Search = () => {
             ?data.map((data, index) => {
               let likeList = JSON.parse(localStorage.getItem('likeList')) || [];
               return (
-                <MovieList key={index} movie={data} addLike={(e) => addLike(e)} removeLike={removeLike} likeList={likeList}/>
+                <MovieList key={index} movie={data} addLike={addLike} removeLike={removeLike} likeList={likeList}/>
               )
             })
             :(
