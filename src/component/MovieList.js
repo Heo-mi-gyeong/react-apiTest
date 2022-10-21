@@ -5,20 +5,23 @@ const MovieList = ({movie,addLike,removeLike,likeList}) => {
 
   const [like, setLike] = useState(false);
 
-  //조회결과가 달라도 그 위치의 영화가 찜되어있는 이유
-  //리렌더링 안돼서
+  //이슈1. 조회결과가 달라도 그 위치의 영화가 찜 되어있음
+  //이슈2. 자기 자신은 잘 사라짐(삭제한 요소 뒤 요소 하나씩 하트 해제됨)
+  //이슈3. Link에 이벤트 함수 못넣음
   useEffect(
     ()=>{
       likeList.map((list,index) => {
         if(list.title===movie.title){
-            setLike(true)
+            setLike(true);
         }
       })
   }
-  ,[])
+  ,[like])
   
   useEffect (()=>{
+    //찜 화면에서는 삭제된 요소가 false로 변하고 출력됨
     console.log(like);
+    console.log(movie.title);
   },
   [like])
 
@@ -34,9 +37,9 @@ const MovieList = ({movie,addLike,removeLike,likeList}) => {
         <img src={like?'https://cdn-icons-png.flaticon.com/512/833/833558.png':'https://cdn-icons-png.flaticon.com/512/5294/5294889.png'} style={{width:'30px'}} 
               onClick={
                 like?(
-                  ()=>{
-                    removeLike(movie)
-                    setLike(!like)
+                    ()=>{
+                      removeLike(movie)
+                      setLike(!like)
                   }):(
                     () => {
                       addLike(movie)
