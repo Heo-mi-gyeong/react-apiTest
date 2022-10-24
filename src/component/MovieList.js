@@ -1,29 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../styles/movieList.module.css'
 
-const MovieList = ({movie,addLike,removeLike,likeList}) => {
+const MovieList = ({movie,data,addLike,removeLike,likeList}) => {
 
   const [like, setLike] = useState(false);
 
-  //이슈1. 조회결과가 달라도 그 위치의 영화가 찜 되어있음
-  //이슈2. 자기 자신은 잘 사라짐(삭제한 요소 뒤 요소 하나씩 하트 해제됨)
-  //이슈3. Link에 이벤트 함수 못넣음
   useEffect(
     ()=>{
+      setLike(false);
       likeList.map((list,index) => {
         if(list.title===movie.title){
             setLike(true);
         }
       })
   }
-  ,[like])
-  
-  useEffect (()=>{
-    //찜 화면에서는 삭제된 요소가 false로 변하고 출력됨
-    console.log(like);
-    console.log(movie.title);
-  },
-  [like])
+  ,[data])
+
 
   const goSite = () => {
     window.location.href = movie.link ;

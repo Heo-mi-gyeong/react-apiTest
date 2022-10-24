@@ -11,103 +11,28 @@ const Search = () => {
   const page = useRef(10);
   const [genre,setGenre] = useState('');
 
+  //검색
   const onSearch = (e,targetInput) => {
     e.preventDefault();
-    //setGenre('');
 
     if(!targetInput){
       alert('검색어를 한글자 이상 입력해주세요.');
       return;
     }
-
     page.current = 10;
-
-    axios({
-      method: 'get',
-      //url: 'https://openapi.naver.com/v1/search/movie.json',
-      url: '/v1/search/movie.json',
-      params: {
-        display : '10',
-        query : targetInput,
-        display: page.current,
-        genre : genre
-      },
-      headers : {
-        'X-Naver-Client-Id' : 'LXTIWfkqGGa7zfKNIkk1',
-        'X-Naver-Client-Secret' : 'EDRJAsd_jO',
-        'Content-Type' : 'plain/text',
-      }
-    }).then((response) => {
-
-      setData(response.data.items);
-
-    }).catch((error) => {
-
-      console.log(error);
-      //error 모달장으로 띄우기
-    });
+    callApi();
   }
 
-  /* //조회한 영화목록 확인용
-  useEffect(() => {
-    console.log(data);
-  },[data]); */
-
+  //더보기
   const addPage = () => {
     page.current = page.current+10;
-
-    axios({
-      method: 'get',
-      //url: 'https://openapi.naver.com/v1/search/movie.json',
-      url: '/v1/search/movie.json',
-      params: {
-        display : '10',
-        query : searchInput.current.value,
-        display: page.current
-      },
-      headers : {
-        'X-Naver-Client-Id' : 'LXTIWfkqGGa7zfKNIkk1',
-        'X-Naver-Client-Secret' : 'EDRJAsd_jO',
-        'Content-Type' : 'plain/text',
-      }
-    }).then((response) => {
-
-      setData(response.data.items);
-
-    }).catch((error) => {
-
-      console.log(error);
-      //error 모달창으로 띄우기
-    });
+    callApi();
   }
 
+  //장르선택
   const onGenre = (code) => {
     setGenre(code);
     page.current = 10;
-
-    axios({
-      method: 'get',
-      //url: 'https://openapi.naver.com/v1/search/movie.json',
-      url: '/v1/search/movie.json',
-      params: {
-        display : '10',
-        query : searchInput.current.value,
-        display: page.current,
-        genre : code
-      },
-      headers : {
-        'X-Naver-Client-Id' : 'LXTIWfkqGGa7zfKNIkk1',
-        'X-Naver-Client-Secret' : 'EDRJAsd_jO',
-        'Content-Type' : 'plain/text',
-      }
-    }).then((response) => {
-      setData(response.data.items);
-
-    }).catch((error) => {
-
-      console.log(error);
-      //error 모달장으로 띄우기
-    });
   }
 
   const addLike = (targetMovie) => {
@@ -126,6 +51,51 @@ const Search = () => {
     ))) 
   }
 
+  useEffect(()=>{
+    axios({
+      method: 'get',
+      url: '/v1/search/movie.json',
+      params: {
+        query : searchInput.current.value,
+        display: page.current,
+        genre : genre
+      },
+      headers : {
+        'X-Naver-Client-Id' : 'LXTIWfkqGGa7zfKNIkk1',
+        'X-Naver-Client-Secret' : 'EDRJAsd_jO',
+        'Content-Type' : 'plain/text',
+      }
+    }).then((response) => {
+      setData(response.data.items);
+
+    }).catch((error) => {
+
+      console.log(error);
+    });
+  },[genre])
+
+   const callApi = () => {
+    axios({
+      method: 'get',
+      url: '/v1/search/movie.json',
+      params: {
+        query : searchInput.current.value,
+        display: page.current,
+        genre : genre
+      },
+      headers : {
+        'X-Naver-Client-Id' : 'LXTIWfkqGGa7zfKNIkk1',
+        'X-Naver-Client-Secret' : 'EDRJAsd_jO',
+        'Content-Type' : 'plain/text',
+      }
+    }).then((response) => {
+      setData(response.data.items);
+
+    }).catch((error) => {
+
+      console.log(error);
+    });
+  } 
   // 제목, 감독, 이미지, 출연자, 평점
   return (
     <div className={styles.container}>
@@ -153,10 +123,10 @@ const Search = () => {
         <div className={styles.movieContainer}>
          {
             data&&data.length>0
-            ?data.map((data, index) => {
+            ?data.map((movie, index) => {
               let likeList = JSON.parse(localStorage.getItem('likeList')) || [];
               return (
-                <MovieList key={index} movie={data} addLike={addLike} removeLike={removeLike} likeList={likeList}/>
+                <MovieList key={index} data={data} movie={movie} addLike={addLike} removeLike={removeLike} likeList={likeList}/>
               )
             })
             :(

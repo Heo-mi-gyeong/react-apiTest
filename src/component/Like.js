@@ -5,21 +5,13 @@ import MovieList from './MovieList';
 
 const Like = () => {
     const navigate = useNavigate();
+    const [check, setCheck ] = useState(true);
     const [data,setDate] = useState([]);
-    const [check,setCheck] = useState(true);
 
     useEffect(()=>{
         const likeList = JSON.parse(localStorage.getItem('likeList'));
         setDate(likeList);
     },[check])
-
-
-    const addLike = (targetMovie) => {
-        let likeList = JSON.parse(localStorage.getItem('likeList')) || [];
-
-        likeList = likeList.concat(targetMovie); // [targetMovie]
-        localStorage.setItem('likeList', JSON.stringify(likeList));
-    }
     
     const removeLike = (targetMovie) => {
         const likeList = JSON.parse(localStorage.getItem('likeList'));
@@ -39,10 +31,10 @@ const Like = () => {
         <div className={styles.movieContainer}>
          {
             data&&data.length>0
-            ?data.map((data, index) => {
+            ?data.map((movie, index) => {
               let likeList = JSON.parse(localStorage.getItem('likeList')) || [];
               return (
-                <MovieList key={index} movie={data} addLike={addLike} removeLike={removeLike} likeList={likeList}/>
+                <MovieList key={index} data={data} movie={movie} removeLike={removeLike} likeList={likeList}/>
               )
             })
             :(
