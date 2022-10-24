@@ -1,0 +1,41 @@
+.modal{
+    width:100vw;
+    height: 110vh;
+    position: fixed;
+    margin-top: -43%;
+    background-color:rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.container {
+    width:60%;
+    height: 50%;
+    background-color: white;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.row { 
+    width:100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 55px;
+    margin-top: 30px;
+}
+
+.row > img {
+    width:3%;
+}
+
+.row > img:hover{
+    content : url('https://cdn-icons-png.flaticon.com/512/1828/1828774.png');
+}
+
+.row > img:active {
+    transform: scale(1.2);
+}

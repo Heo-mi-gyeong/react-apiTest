@@ -35,8 +35,8 @@ const Search = () => {
     page.current = 10;
   }
 
+  //찜하기
   const addLike = (targetMovie) => {
-    //localStorage.setItem(id.current,JSON.stringify(targetMovie));
     let likeList = JSON.parse(localStorage.getItem('likeList')) || [];
     likeList = likeList.concat(targetMovie); // [targetMovie]
     localStorage.setItem('likeList', JSON.stringify(likeList));
@@ -96,6 +96,7 @@ const Search = () => {
       console.log(error);
     });
   } 
+  
   // 제목, 감독, 이미지, 출연자, 평점
   return (
     <div className={styles.container}>
