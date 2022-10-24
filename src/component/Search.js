@@ -46,9 +46,10 @@ const Search = () => {
     const likeList = JSON.parse(localStorage.getItem('likeList'));
 
     localStorage.removeItem('likeList');
-    localStorage.setItem('likeList',JSON.stringify(likeList.filter(like => 
-      like.title !== targetMovie.title
-    ))) 
+    localStorage.setItem('likeList',JSON.stringify(
+      likeList.filter(like => 
+        like.title !== targetMovie.title
+      ))) 
   }
 
   useEffect(()=>{
@@ -96,7 +97,7 @@ const Search = () => {
       console.log(error);
     });
   } 
-  
+
   // 제목, 감독, 이미지, 출연자, 평점
   return (
     <div className={styles.container}>

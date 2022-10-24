@@ -18,10 +18,6 @@ const MovieList = ({movie,data,addLike,removeLike,likeList}) => {
   }
   ,[data])
 
-  const goSite = () => {
-    window.location.href = movie.link ;
-  }
-
   return (
     <>
       {
@@ -29,7 +25,7 @@ const MovieList = ({movie,data,addLike,removeLike,likeList}) => {
         ? <Modal openModal={setOpenModal} movie={movie}/>
         :null
       }
-      <div className={styles.item} onClick={() => setOpenModal(true)}>
+      <div className={styles.item}>
         <div className={styles.row}>
           <h3 dangerouslySetInnerHTML={ {__html: movie.title} }></h3>
           <img src={like?'https://cdn-icons-png.flaticon.com/512/833/833558.png':'https://cdn-icons-png.flaticon.com/512/5294/5294889.png'} style={{width:'30px'}} 
@@ -50,10 +46,10 @@ const MovieList = ({movie,data,addLike,removeLike,likeList}) => {
           {
             movie.image
             ?(
-                <img className={styles.image} src={movie.image} title={'보러가기'} onClick={goSite}></img> 
+                <img className={styles.image} src={movie.image} title={'보러가기'} onClick={() => setOpenModal(true)}></img> 
               )
             :(
-                <img className={styles.image} src="https://내안의숲.com/images/noimage.gif" title={'보러가기'} onClick={goSite}></img> 
+                <img className={styles.image} src="https://내안의숲.com/images/noimage.gif" title={'보러가기'} onClick={() => setOpenModal(true)}></img> 
             )
           }
           {

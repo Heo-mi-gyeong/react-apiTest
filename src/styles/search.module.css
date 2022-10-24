@@ -26,10 +26,11 @@
 
 .movieContainer{
     width:100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-auto-flow: row dense;
     align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-items: center;
     margin-bottom: 20px;
     margin-top: 30px;
 }
